@@ -8,7 +8,7 @@
 	},
 	"id": "alphalaneous.that_paste_button",
 	"name": "That *** Paste Button",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "Alphalaneous",
 	"description": "Warns you if you press paste in \"Edit Group\" on a selection of objects or if you press \"Paste State\".",
 	"links": {
@@ -22,5 +22,22 @@
             "version": ">=v1.13.2",
             "importance": "required"
         }
-    ]
+    ],
+	"settings": {
+		"toggle-paste-state": {
+			"name": "Show Paste State Warning",
+			"default": true,
+			"type": "bool"
+		},
+		"toggle-paste-state-group": {
+			"name": "Show Paste State Warning on Edit Group popup",
+			"default": true,
+			"type": "bool"
+		},
+		"toggle-paste-color": {
+			"name": "Show Paste Color Warning",
+			"default": true,
+			"type": "bool"
+		}
+	}
 }

@@ -9,16 +9,30 @@ class $modify(MyEditorUI, EditorUI) {
 	struct Fields {
 		SEL_MenuHandler m_pasteStateCallback;
 		CCObject* m_pasteStateTarget;
+
+		SEL_MenuHandler m_pasteColorCallback;
+		CCObject* m_pasteColorTarget;
 	};
 
     bool init(LevelEditorLayer* editorLayer) {
 		if (!EditorUI::init(editorLayer)) return false;
 
-		if (CCNode* buttons = getChildByID("editor-buttons-menu")) {
-			if (CCMenuItemSpriteExtra* pasteStateButton = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->getChildByID("paste-state-button"))) {
-				m_fields->m_pasteStateCallback = pasteStateButton->m_pfnSelector;
-				m_fields->m_pasteStateTarget = pasteStateButton->m_pListener;
-				pasteStateButton->m_pfnSelector = menu_selector(MyEditorUI::onBetterPasteState);
+		if (Mod::get()->getSettingValue<bool>("toggle-paste-state")) {
+			if (CCNode* buttons = getChildByID("editor-buttons-menu")) {
+				if (CCMenuItemSpriteExtra* pasteStateButton = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->getChildByID("paste-state-button"))) {
+					m_fields->m_pasteStateCallback = pasteStateButton->m_pfnSelector;
+					m_fields->m_pasteStateTarget = pasteStateButton->m_pListener;
+					pasteStateButton->m_pfnSelector = menu_selector(MyEditorUI::onBetterPasteState);
+				}
+			}
+		}
+		if (Mod::get()->getSettingValue<bool>("toggle-paste-color")) {
+			if (CCNode* buttons = getChildByID("editor-buttons-menu")) {
+				if (CCMenuItemSpriteExtra* pasteColorButton = typeinfo_cast<CCMenuItemSpriteExtra*>(buttons->getChildByID("paste-color-button"))) {
+					m_fields->m_pasteColorCallback = pasteColorButton->m_pfnSelector;
+					m_fields->m_pasteColorTarget = pasteColorButton->m_pListener;
+					pasteColorButton->m_pfnSelector = menu_selector(MyEditorUI::onBetterPasteColor);
+				}
 			}
 		}
 		return true;
@@ -34,6 +48,16 @@ class $modify(MyEditorUI, EditorUI) {
 			(m_fields->m_pasteStateTarget->*(m_fields->m_pasteStateCallback))(obj);
 		}
 	}
+	void onBetterPasteColor(CCObject* obj) {
+		if (m_selectedObjects && m_selectedObjects->count() > 1){
+			geode::createQuickPopup("Paste Color?", "You have multiple objects selected, pasting color is <cr>dangerous</c>! Are you sure?", "Cancel", "Yes", [this, obj] (FLAlertLayer*, bool yes) {
+				if (yes) (m_fields->m_pasteColorTarget->*(m_fields->m_pasteColorCallback))(obj);
+			}, true, true);
+		} 
+		else {
+			(m_fields->m_pasteColorTarget->*(m_fields->m_pasteColorCallback))(obj);
+		}
+	}
 };
 
 class $modify(MySetGroupIDLayer, SetGroupIDLayer) {
@@ -46,11 +70,13 @@ class $modify(MySetGroupIDLayer, SetGroupIDLayer) {
     bool init(GameObject* obj, cocos2d::CCArray* objs) {
 		if (!SetGroupIDLayer::init(obj, objs)) return false;
 
-		if (CCNode* actions = m_mainLayer->getChildByID("actions-menu")) {
-			if (CCMenuItemSpriteExtra* pasteButton = typeinfo_cast<CCMenuItemSpriteExtra*>(actions->getChildByID("paste-button"))) {
-				m_fields->m_pasteCallback = pasteButton->m_pfnSelector;
-				m_fields->m_pasteTarget = pasteButton->m_pListener;
-				pasteButton->m_pfnSelector = menu_selector(MySetGroupIDLayer::onBetterPaste);
+		if (Mod::get()->getSettingValue<bool>("toggle-paste-state-group")) {
+			if (CCNode* actions = m_mainLayer->getChildByID("actions-menu")) {
+				if (CCMenuItemSpriteExtra* pasteButton = typeinfo_cast<CCMenuItemSpriteExtra*>(actions->getChildByID("paste-button"))) {
+					m_fields->m_pasteCallback = pasteButton->m_pfnSelector;
+					m_fields->m_pasteTarget = pasteButton->m_pListener;
+					pasteButton->m_pfnSelector = menu_selector(MySetGroupIDLayer::onBetterPaste);
+				}
 			}
 		}
 		return true;
