@@ -1,3 +1,6 @@
+# 1.0.5
+- Add option to always show the warning.
+
 # 1.0.4
 - iOS support
 

@@ -39,8 +39,9 @@ class $modify(MyEditorUI, EditorUI) {
 	}
 
 	void onBetterPasteState(CCObject* obj) {
-		if (m_selectedObjects && m_selectedObjects->count() > 1){
-			geode::createQuickPopup("Paste State?", "You have multiple objects selected, pasting state is <cr>dangerous</c>! Are you sure?", "Cancel", "Yes", [this, obj] (FLAlertLayer*, bool yes) {
+		bool always = Mod::get()->getSettingValue<bool>("always-show");
+		if ((always && m_selectedObject) || (!always && m_selectedObjects && m_selectedObjects->count() > 1)) {
+			geode::createQuickPopup("Paste State?", "Pasting state is <cr>dangerous</c>! Are you sure?", "Cancel", "Yes", [this, obj] (FLAlertLayer*, bool yes) {
 				if (yes) (m_fields->m_pasteStateTarget->*(m_fields->m_pasteStateCallback))(obj);
 			}, true, true);
 		} 
@@ -49,8 +50,9 @@ class $modify(MyEditorUI, EditorUI) {
 		}
 	}
 	void onBetterPasteColor(CCObject* obj) {
-		if (m_selectedObjects && m_selectedObjects->count() > 1){
-			geode::createQuickPopup("Paste Color?", "You have multiple objects selected, pasting color is <cr>dangerous</c>! Are you sure?", "Cancel", "Yes", [this, obj] (FLAlertLayer*, bool yes) {
+		bool always = Mod::get()->getSettingValue<bool>("always-show");
+		if ((always && m_selectedObject) || (!always && m_selectedObjects && m_selectedObjects->count() > 1)) {
+			geode::createQuickPopup("Paste Color?", "Pasting color is <cr>dangerous</c>! Are you sure?", "Cancel", "Yes", [this, obj] (FLAlertLayer*, bool yes) {
 				if (yes) (m_fields->m_pasteColorTarget->*(m_fields->m_pasteColorCallback))(obj);
 			}, true, true);
 		} 
@@ -83,10 +85,11 @@ class $modify(MySetGroupIDLayer, SetGroupIDLayer) {
 	}
 
 	void onBetterPaste(CCObject* obj) {
-
 		EditorUI* editorUI = EditorUI::get();
-		if (editorUI->m_selectedObjects && editorUI->m_selectedObjects->count() > 1){
-			geode::createQuickPopup("Paste State?", "You have multiple objects selected, pasting state is <cr>dangerous</c>! Are you sure?", "Cancel", "Yes", [this, obj] (FLAlertLayer*, bool yes) {
+
+		bool always = Mod::get()->getSettingValue<bool>("always-show");
+		if ((always && editorUI->m_selectedObject) || (!always && editorUI->m_selectedObjects && editorUI->m_selectedObjects->count() > 1)) {
+			geode::createQuickPopup("Paste State?", "Pasting state is <cr>dangerous</c>! Are you sure?", "Cancel", "Yes", [this, obj] (FLAlertLayer*, bool yes) {
 				if (yes) (m_fields->m_pasteTarget->*(m_fields->m_pasteCallback))(obj);
 			}, true, true);
 		} 

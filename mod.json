@@ -1,5 +1,5 @@
 {
-	"geode": "4.3.1",
+	"geode": "4.4.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -8,7 +8,7 @@
 	},
 	"id": "alphalaneous.that_paste_button",
 	"name": "That *** Paste Button",
-	"version": "v1.0.4",
+	"version": "v1.0.5",
 	"developer": "Alphalaneous",
 	"description": "Warns you if you press paste in \"Edit Group\" on a selection of objects or if you press \"Paste State\".",
 	"links": {
@@ -37,6 +37,12 @@
 		"toggle-paste-color": {
 			"name": "Show Paste Color Warning",
 			"default": true,
+			"type": "bool"
+		},
+		"always-show": {
+			"name": "Always Show the Warning",
+			"description": "Always shows the warning even if you only have one object selected",
+			"default": false,
 			"type": "bool"
 		}
 	},
