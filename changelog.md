@@ -1,3 +1,6 @@
+# 1.0.6
+- iOS rebuild
+
 # 1.0.5
 - Add option to always show the warning.
 

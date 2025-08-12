@@ -1,5 +1,5 @@
 {
-	"geode": "4.4.0",
+	"geode": "4.7.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -8,7 +8,7 @@
 	},
 	"id": "alphalaneous.that_paste_button",
 	"name": "That *** Paste Button",
-	"version": "v1.0.5",
+	"version": "v1.0.6",
 	"developer": "Alphalaneous",
 	"description": "Warns you if you press paste in \"Edit Group\" on a selection of objects or if you press \"Paste State\".",
 	"links": {
